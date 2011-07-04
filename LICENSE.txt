@@ -1,0 +1,1 @@
+As always, all my source code can be used royalty-free into your app. Just make sure that you don’t remove the copyright notice from the source code if you make your app open source. You don’t have to attribute me in your app, although I would be glad if you do so.
