@@ -8,40 +8,46 @@
 @implementation InfiniTabBar
 
 @synthesize infiniTabBarDelegate;
+@synthesize tabBars;
+@synthesize aTabBar;
+@synthesize bTabBar;
 
 - (id)initWithItems:(NSArray *)items {
 	self = [super initWithFrame:CGRectMake(0.0, 411.0, 320.0, 49.0)];
 	// TODO:
-	//self = [super initWithFrame:CGRectMake([[self superview] frame].origin.x + [[self superview] frame].size.width - 320.0, [[self superview] frame].origin.y + [[self superview] frame].size.height - 49.0, 320.0, 49.0)];
+	//self = [super initWithFrame:CGRectMake(self.superview.frame.origin.x + self.superview.frame.size.width - 320.0, self.superview.frame.origin.y + self.superview.frame.size.height - 49.0, 320.0, 49.0)];
 	// Doesn't work. self is nil at this point.
 	
     if (self) {
-		[self setPagingEnabled:YES];
-		[self setDelegate:self];
+		self.pagingEnabled = YES;
+		self.delegate = self;
+		
+		self.tabBars = [[NSMutableArray alloc] init];
 		
 		float x = 0.0;
 		
-		for (double d = 0; d < ceil([items count] / 5.0); d ++) {
+		for (double d = 0; d < ceil(items.count / 5.0); d ++) {
 			UITabBar *tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(x, 0.0, 320.0, 49.0)];
-			[tabBar setTag:d];
-			[tabBar setDelegate:self];
+			tabBar.delegate = self;
 			
 			int len = 0;
 			
 			for (int i = d * 5; i < d * 5 + 5; i ++)
-				if (i < [items count])
+				if (i < items.count)
 					len ++;
 			
-			[tabBar setItems:[items objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(d * 5, len)]]];
+			tabBar.items = [items objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(d * 5, len)]];
 			
 			[self addSubview:tabBar];
+			
+			[self.tabBars addObject:tabBar];
 			
 			[tabBar release];
 			
 			x += 320.0;
 		}
 		
-		[self setContentSize:CGSizeMake(x, 49.0)];
+		self.contentSize = CGSizeMake(x, 49.0);
 	}
 	
     return self;
@@ -49,110 +55,106 @@
 
 - (void)setBounces:(BOOL)bounces {
 	if (bounces) {
-		int tags = 0;
+		int count = self.tabBars.count;
 		
-		for (UIView *subview in [self subviews])
-			if ([subview class] == [UITabBar class] && [subview tag] + 1 > tags)
-				tags = [subview tag] + 1;
-		
-		if (tags > 0) {
-			UITabBar *aTabBar = [[UITabBar alloc] initWithFrame:CGRectMake(-320.0, 0.0, 320.0, 49.0)];
-			[aTabBar setTag:998];
+		if (count > 0) {
+			if (self.aTabBar == nil)
+				self.aTabBar = [[UITabBar alloc] initWithFrame:CGRectMake(-320.0, 0.0, 320.0, 49.0)];
 			
-			[self addSubview:aTabBar];
+			[self addSubview:self.aTabBar];
 			
-			[aTabBar release];
+			if (self.bTabBar == nil)
+				self.bTabBar = [[UITabBar alloc] initWithFrame:CGRectMake(count * 320.0, 0.0, 320.0, 49.0)];
 			
-			UITabBar *bTabBar = [[UITabBar alloc] initWithFrame:CGRectMake(tags * 320.0, 0.0, 320.0, 49.0)];
-			[bTabBar setTag:999];
-			
-			[self addSubview:bTabBar];
-			
-			[bTabBar release];
+			[self addSubview:self.bTabBar];
 		}
 	} else {
-		[[self viewWithTag:998] removeFromSuperview];
-		[[self viewWithTag:999] removeFromSuperview];
+		self.aTabBar.removeFromSuperview;
+		self.bTabBar.removeFromSuperview;
 	}
 	
 	[super setBounces:bounces];
 }
 
 - (void)setItems:(NSArray *)items animated:(BOOL)animated {
-	for (UIView *subview in [self subviews])
-		if ([subview class] == [UITabBar class]) {
-			int len = 0;
-			
-			for (int i = [subview tag] * 5; i < [subview tag] * 5 + 5; i ++)
-				if (i < [items count])
-					len ++;
-			
-			[(UITabBar *)subview setItems:[items objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange([subview tag] * 5, len)]] animated:animated];
-		}
+	for (UITabBar *tabBar in self.tabBars) {
+		int len = 0;
+		
+		for (int i = [self.tabBars indexOfObject:tabBar] * 5; i < [self.tabBars indexOfObject:tabBar] * 5 + 5; i ++)
+			if (i < items.count)
+				len ++;
+		
+		[tabBar setItems:[items objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange([self.tabBars indexOfObject:tabBar] * 5, len)]] animated:animated];
+	}
 	
-	[self setContentSize:CGSizeMake(ceil([items count] / 5.0) * 320.0, 49.0)];
+	self.contentSize = CGSizeMake(ceil(items.count / 5.0) * 320.0, 49.0);
 }
 
 - (int)currentTabBarTag {
-	return [self contentOffset].x / 320.0;
+	return self.contentOffset.x / 320.0;
 }
 
 - (int)selectedItemTag {
-	for (UIView *subview in [self subviews])
-		if ([subview class] == [UITabBar class] && [(UITabBar *)subview selectedItem] != nil)
-			return [[(UITabBar *)subview selectedItem] tag];
+	for (UITabBar *tabBar in self.tabBars)
+		if (tabBar.selectedItem != nil)
+			return tabBar.selectedItem.tag;
 	
 	// No item selected
 	return 0;
 }
 
 - (BOOL)scrollToTabBarWithTag:(int)tag animated:(BOOL)animated {
-	for (UIView *subview in [self subviews])
-		if ([subview class] == [UITabBar class] && tag == [subview tag]) {
-			[self scrollRectToVisible:[subview frame] animated:animated];
+	for (UITabBar *tabBar in self.tabBars)
+		if ([self.tabBars indexOfObject:tabBar] == tag) {
+			UITabBar *tabBar = [self.tabBars objectAtIndex:tag];
+			
+			[self scrollRectToVisible:tabBar.frame animated:animated];
 			
 			if (animated == NO)
 				[self scrollViewDidEndDecelerating:self];
 			
 			return YES;
 		}
-	
+		
 	return NO;
 }
 
 - (BOOL)selectItemWithTag:(int)tag {
-	for (UIView *subview in [self subviews])
-		if ([subview class] == [UITabBar class])
-			for (UITabBarItem *item in [(UITabBar *)subview items])
-				if ([item tag] == tag) {
-					[(UITabBar *)subview setSelectedItem:item];
-					
-					[self tabBar:(UITabBar *)subview didSelectItem:item];
-					
-					return YES;
-				}
+	for (UITabBar *tabBar in self.tabBars)
+		for (UITabBarItem *item in tabBar.items)
+			if (item.tag == tag) {
+				tabBar.selectedItem = item;
+				
+				[self tabBar:tabBar didSelectItem:item];
+				
+				return YES;
+			}
 	
 	return NO;
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-	[infiniTabBarDelegate infiniTabBar:self didScrollToTabBarWithTag:[scrollView contentOffset].x / 320.0];
+	[infiniTabBarDelegate infiniTabBar:self didScrollToTabBarWithTag:scrollView.contentOffset.x / 320.0];
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
 	[self scrollViewDidEndDecelerating:scrollView];
 }
 
-- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+- (void)tabBar:(UITabBar *)cTabBar didSelectItem:(UITabBarItem *)item {
 	// Act like a single tab bar
-	for (UIView *subview in [self subviews])
-		if ([subview class] == [UITabBar class] && subview != tabBar)
-			[(UITabBar *)subview setSelectedItem:nil];
+	for (UITabBar *tabBar in self.tabBars)
+		if (tabBar != cTabBar)
+			tabBar.selectedItem = nil;
 	
-	[infiniTabBarDelegate infiniTabBar:self didSelectItemWithTag:[item tag]];
+	[infiniTabBarDelegate infiniTabBar:self didSelectItemWithTag:item.tag];
 }
 
 - (void)dealloc {
+	[bTabBar release];
+	[aTabBar release];
+	[tabBars release];
+	
 	[super dealloc];
 }
 

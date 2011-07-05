@@ -9,9 +9,15 @@
 
 @interface InfiniTabBar : UIScrollView <UIScrollViewDelegate, UITabBarDelegate> {
 	id <InfiniTabBarDelegate> infiniTabBarDelegate;
+	NSMutableArray *tabBars;
+	UITabBar *aTabBar;
+	UITabBar *bTabBar;
 }
 
 @property (nonatomic, assign) id infiniTabBarDelegate;
+@property (nonatomic, retain) NSMutableArray *tabBars;
+@property (nonatomic, retain) UITabBar *aTabBar;
+@property (nonatomic, retain) UITabBar *bTabBar;
 
 - (id)initWithItems:(NSArray *)items;
 - (void)setBounces:(BOOL)bounces;
