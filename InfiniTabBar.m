@@ -22,7 +22,7 @@
 		self.pagingEnabled = YES;
 		self.delegate = self;
 		
-		self.tabBars = [[NSMutableArray alloc] init];
+		self.tabBars = [[[NSMutableArray alloc] init] autorelease];
 		
 		float x = 0.0;
 		
@@ -59,18 +59,18 @@
 		
 		if (count > 0) {
 			if (self.aTabBar == nil)
-				self.aTabBar = [[UITabBar alloc] initWithFrame:CGRectMake(-320.0, 0.0, 320.0, 49.0)];
+				self.aTabBar = [[[UITabBar alloc] initWithFrame:CGRectMake(-320.0, 0.0, 320.0, 49.0)]autorelease];
 			
 			[self addSubview:self.aTabBar];
 			
 			if (self.bTabBar == nil)
-				self.bTabBar = [[UITabBar alloc] initWithFrame:CGRectMake(count * 320.0, 0.0, 320.0, 49.0)];
+				self.bTabBar = [[[UITabBar alloc] initWithFrame:CGRectMake(count * 320.0, 0.0, 320.0, 49.0)] autorelease];
 			
 			[self addSubview:self.bTabBar];
 		}
 	} else {
-		self.aTabBar.removeFromSuperview;
-		self.bTabBar.removeFromSuperview;
+		[self.aTabBar removeFromSuperview];
+		[self.bTabBar removeFromSuperview];
 	}
 	
 	[super setBounces:bounces];
