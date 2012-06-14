@@ -150,6 +150,13 @@
 	[infiniTabBarDelegate infiniTabBar:self didSelectItemWithTag:item.tag];
 }
 
+- (void) deSelectAllTabs{
+    for (UITabBar *tabBar in self.tabBars){
+        tabBar.selectedItem = nil;
+        [tabBar setNeedsDisplay];
+    }
+}
+
 - (void)dealloc {
 	[bTabBar release];
 	[aTabBar release];
