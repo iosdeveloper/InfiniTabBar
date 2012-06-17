@@ -157,6 +157,27 @@
     }
 }
 
+- (void) disableTabItemWithTag:(int)tag{
+    for (UITabBar *tabBar in self.tabBars){
+        for(UITabBarItem *anItem in tabBar.items){
+            if(anItem.tag == tag){
+                [anItem setEnabled:NO];
+            }
+        }
+    }
+}
+
+- (void) enableTabItemWithTag:(int)tag{
+    for (UITabBar *tabBar in self.tabBars){
+        for(UITabBarItem *anItem in tabBar.items){
+            if(anItem.tag == tag){
+                [anItem setEnabled:YES];
+            }
+        }
+    }
+}
+
+
 - (void)dealloc {
 	[bTabBar release];
 	[aTabBar release];
