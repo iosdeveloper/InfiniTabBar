@@ -27,6 +27,9 @@
 - (int)selectedItemTag;
 - (BOOL)scrollToTabBarWithTag:(int)tag animated:(BOOL)animated;
 - (BOOL)selectItemWithTag:(int)tag;
+- (void) deSelectAllTabs;
+- (void) disableTabItemWithTag:(int)tag;
+- (void) enableTabItemWithTag:(int)tag;
 
 @end
 
