@@ -30,17 +30,17 @@
 		
 		float x = 0.0;
 		
-		for (double d = 0; d < ceil(items.count / 5.0); d ++) {
+		for (double d = 0; d < ceil(items.count / 4.0); d ++) {
 			UITabBar *tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(x, 0.0, 320.0, 53.0)];
 			tabBar.delegate = self;
 			
 			int len = 0;
 			
-			for (int i = d * 5; i < d * 5 + 5; i ++)
+			for (int i = d * 4; i < d * 4 + 4; i ++)
 				if (i < items.count)
 					len ++;
 			
-			tabBar.items = [items objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(d * 5, len)]];
+			tabBar.items = [items objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(d * 4, len)]];
 			
 			[self.theScrollView addSubview:tabBar];
 			
@@ -106,14 +106,14 @@
 	for (UITabBar *tabBar in self.tabBars) {
 		int len = 0;
 		
-		for (int i = [self.tabBars indexOfObject:tabBar] * 5; i < [self.tabBars indexOfObject:tabBar] * 5 + 5; i ++)
+		for (int i = [self.tabBars indexOfObject:tabBar] * 4; i < [self.tabBars indexOfObject:tabBar] * 4 + 4; i ++)
 			if (i < items.count)
 				len ++;
 		
-		[tabBar setItems:[items objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange([self.tabBars indexOfObject:tabBar] * 5, len)]] animated:animated];
+		[tabBar setItems:[items objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange([self.tabBars indexOfObject:tabBar] * 4, len)]] animated:animated];
 	}
 	
-	self.theScrollView.contentSize = CGSizeMake(ceil(items.count / 5.0) * 320.0, 53.0);
+	self.theScrollView.contentSize = CGSizeMake(ceil(items.count / 4.0) * 320.0, 53.0);
 }
 
 - (int)currentTabBarTag {
