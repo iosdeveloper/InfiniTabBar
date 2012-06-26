@@ -15,14 +15,14 @@
 @synthesize theScrollView;
 
 - (id)initWithItems:(NSArray *)items {
-	self = [super initWithFrame:CGRectMake(0.0, 401.0, 320.0, 59.0)];
+	self = [super initWithFrame:CGRectMake(0.0, 300.0, 320.0, 130.0)];
 	// TODO:
 	//self = [super initWithFrame:CGRectMake(self.superview.frame.origin.x + self.superview.frame.size.width - 320.0, self.superview.frame.origin.y + self.superview.frame.size.height - 59.0, 320.0, 59.0)];
 	// Doesn't work. self is nil at this point.
 	
     if (self) {
         [self setBackgroundColor:[UIColor blackColor]];
-        theScrollView = [[UIScrollView alloc]  initWithFrame:CGRectMake(0.0, 0, 320.0, 53.0)];
+        theScrollView = [[UIScrollView alloc]  initWithFrame:CGRectMake(0.0, 0, 320.0, 130.0)];
 		theScrollView.pagingEnabled = YES;
 		theScrollView.delegate = self;
 		
@@ -31,7 +31,7 @@
 		float x = 0.0;
 		
 		for (double d = 0; d < ceil(items.count / 4.0); d ++) {
-			UITabBar *tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(x, 0.0, 320.0, 53.0)];
+			UITabBar *tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(x, 0.0, 320.0, 100.0)];
 			tabBar.delegate = self;
 			
 			int len = 0;
@@ -51,7 +51,7 @@
 			x += 320.0;
 		}
 		
-		self.theScrollView.contentSize = CGSizeMake(x, 53.0);
+		self.theScrollView.contentSize = CGSizeMake(x, 130.0);
         [self addSubview:self.theScrollView];
         [self setShowsPageControl:YES];
 	}
@@ -65,12 +65,12 @@
 		
 		if (count > 0) {
 			if (self.aTabBar == nil)
-				self.aTabBar = [[[UITabBar alloc] initWithFrame:CGRectMake(-320.0, 0.0, 320.0, 53.0)]autorelease];
+				self.aTabBar = [[[UITabBar alloc] initWithFrame:CGRectMake(-320.0, 0.0, 320.0, 130.0)]autorelease];
 			
 			[[self theScrollView] addSubview:self.aTabBar];
 			
 			if (self.bTabBar == nil)
-				self.bTabBar = [[[UITabBar alloc] initWithFrame:CGRectMake(count * 320.0, 0.0, 320.0, 53.0)] autorelease];
+				self.bTabBar = [[[UITabBar alloc] initWithFrame:CGRectMake(count * 320.0, 0.0, 320.0, 130.0)] autorelease];
 			
 			[[self theScrollView] addSubview:self.bTabBar];
 		}
@@ -86,7 +86,7 @@
     if(showsPageControl) {
         if(!pageControl) {
             int count = self.tabBars.count;
-            pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, 45, self.frame.size.width, 20)];
+            pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.frame.size.height-30, self.frame.size.width, 20)];
             [pageControl setNumberOfPages:count];
             [self addSubview:pageControl];
         }
@@ -113,7 +113,7 @@
 		[tabBar setItems:[items objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange([self.tabBars indexOfObject:tabBar] * 4, len)]] animated:animated];
 	}
 	
-	self.theScrollView.contentSize = CGSizeMake(ceil(items.count / 4.0) * 320.0, 53.0);
+	self.theScrollView.contentSize = CGSizeMake(ceil(items.count / 4.0) * 320.0, 130.0);
 }
 
 - (int)currentTabBarTag {
