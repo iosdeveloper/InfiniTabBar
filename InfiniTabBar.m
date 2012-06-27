@@ -84,16 +84,17 @@
 
 - (void)setShowsPageControl:(BOOL)showsPageControl {
     if(showsPageControl) {
-        if(!pageControl) {
-            int count = self.tabBars.count;
-            pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.frame.size.height-30, self.frame.size.width, 20)];
-            [pageControl setNumberOfPages:count];
-            [self addSubview:pageControl];
+        if(!self.pageControl) {
+            self.pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.frame.size.height-30, self.frame.size.width, 20)];
+            
+            [self addSubview:self.pageControl];
         }
+        int count = self.tabBars.count;
+        [self.pageControl setNumberOfPages:count];
 
     } else if(pageControl) {
-            [pageControl removeFromSuperview];
-            pageControl = nil;
+            [self.pageControl removeFromSuperview];
+            self.pageControl = nil;
 
     }
 }
@@ -105,7 +106,6 @@
 - (void)setItems:(NSArray *)items animated:(BOOL)animated {
 	for (UITabBar *tabBar in self.tabBars) {
 		int len = 0;
-		
 		for (int i = [self.tabBars indexOfObject:tabBar] * 4; i < [self.tabBars indexOfObject:tabBar] * 4 + 4; i ++)
 			if (i < items.count)
 				len ++;
@@ -114,6 +114,10 @@
 	}
 	
 	self.theScrollView.contentSize = CGSizeMake(ceil(items.count / 4.0) * 320.0, 130.0);
+    if(self.pageControl != nil) {
+        [self.pageControl setNumberOfPages:ceil(items.count / 4.0)];
+    }
+    
 }
 
 - (int)currentTabBarTag {
@@ -157,6 +161,13 @@
 			}
 	
 	return NO;
+}
+
+
+-(void)selectFirstItem:(BOOL)animated {
+    [self scrollToTabBarWithTag:0 animated:animated];
+    UITabBarItem *firstItem = [[[self.tabBars objectAtIndex:0] items] objectAtIndex:0];
+    [self selectItemWithTag:firstItem.tag];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {

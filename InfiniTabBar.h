@@ -32,6 +32,8 @@
 - (void)setItems:(NSArray *)items animated:(BOOL)animated;
 - (int)currentTabBarTag;
 - (int)selectedItemTag;
+-(void)selectFirstItem:(BOOL)animated;
+
 - (BOOL)scrollToTabBarWithTag:(int)tag animated:(BOOL)animated;
 - (BOOL)selectItemWithTag:(int)tag;
 
