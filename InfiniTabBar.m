@@ -21,7 +21,7 @@
 	// Doesn't work. self is nil at this point.
 	
     if (self) {
-        [self setBackgroundColor:[UIColor blackColor]];
+        [self setBackgroundColor:[UIColor clearColor]];
         theScrollView = [[UIScrollView alloc]  initWithFrame:CGRectMake(0.0, 0, 320.0, 130.0)];
 		theScrollView.pagingEnabled = YES;
 		theScrollView.delegate = self;
