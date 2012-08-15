@@ -166,8 +166,12 @@
 
 -(void)selectFirstItem:(BOOL)animated {
     [self scrollToTabBarWithTag:0 animated:animated];
-    UITabBarItem *firstItem = [[[self.tabBars objectAtIndex:0] items] objectAtIndex:0];
-    [self selectItemWithTag:firstItem.tag];
+    if([self.tabBars count] > 0) {
+        UITabBarItem *firstItem = [[[self.tabBars objectAtIndex:0] items] objectAtIndex:0];
+        [self selectItemWithTag:firstItem.tag];
+    }
+    
+   
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
