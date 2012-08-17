@@ -104,18 +104,54 @@
 }
 
 - (void)setItems:(NSArray *)items animated:(BOOL)animated {
+    int itemCount = 0;
+    
+    if(ceil(items.count / 4.0) < self.tabBars.count) {
+        for(int i = self.tabBars.count-1; i+1 > ceil(items.count / 4.0); i--) {
+            [self.tabBars removeObjectAtIndex:i];
+        }
+    }
+    
 	for (UITabBar *tabBar in self.tabBars) {
 		int len = 0;
 		for (int i = [self.tabBars indexOfObject:tabBar] * 4; i < [self.tabBars indexOfObject:tabBar] * 4 + 4; i ++)
 			if (i < items.count)
 				len ++;
-		
 		[tabBar setItems:[items objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange([self.tabBars indexOfObject:tabBar] * 4, len)]] animated:animated];
-	}
+        itemCount = itemCount + tabBar.items.count;
+    
+    }
+    
+    
+    
+    float x = self.tabBars.count * 320;
+    
+    if(itemCount != items.count) {
+        for (double d = self.tabBars.count; d < ceil(items.count / 4.0); d ++) {
+			UITabBar *tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(x, 0.0, 320.0, 80.0)];
+			tabBar.delegate = self;
+			
+			int len = 0;
+			
+			for (int i = d * 4; i < d * 4 + 4; i ++)
+				if (i < items.count)
+					len ++;
+			
+			tabBar.items = [items objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(d * 4, len)]];
+			
+			[self.theScrollView addSubview:tabBar];
+			
+			[self.tabBars addObject:tabBar];
+			
+			[tabBar release];
+			
+			x += 320.0;
+		}
+    }
 	
-	self.theScrollView.contentSize = CGSizeMake(ceil(items.count / 4.0) * 320.0, 110.0);
+	self.theScrollView.contentSize = CGSizeMake(self.tabBars.count * 320.0, 110.0);
     if(self.pageControl != nil) {
-        [self.pageControl setNumberOfPages:ceil(items.count / 4.0)];
+        [self.pageControl setNumberOfPages:self.tabBars.count];
     }
     
 }
