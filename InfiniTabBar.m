@@ -86,7 +86,7 @@
     if(showsPageControl) {
         if(!self.pageControl) {
             self.pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.frame.size.height-30, self.frame.size.width, 20)];
-            
+            [self.pageControl setEnabled:FALSE];
             [self addSubview:self.pageControl];
         }
         int count = self.tabBars.count;
