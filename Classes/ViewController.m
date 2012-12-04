@@ -55,7 +55,7 @@
 	[mostViewed release];
 	
 	// Don't show scroll indicator
-	self.tabBar.showsHorizontalScrollIndicator = NO;
+	self.tabBar.theScrollView.showsHorizontalScrollIndicator = NO;
 	self.tabBar.infiniTabBarDelegate = self;
 	self.tabBar.bounces = NO;
 	
@@ -169,7 +169,7 @@
 }
 
 - (void)showsScrollIndicator:(UISwitch *)sender {
-	self.tabBar.showsHorizontalScrollIndicator = sender.on;
+	[self.tabBar setShowsHorizontalScroller:sender.on];
 }
 
 - (void)setNewItems {
