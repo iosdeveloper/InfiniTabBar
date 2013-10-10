@@ -7,17 +7,12 @@
 
 @protocol InfiniTabBarDelegate;
 
-@interface InfiniTabBar : UIScrollView <UIScrollViewDelegate, UITabBarDelegate> {
-	id <InfiniTabBarDelegate> infiniTabBarDelegate;
-	NSMutableArray *tabBars;
-	UITabBar *aTabBar;
-	UITabBar *bTabBar;
-}
+@interface InfiniTabBar : UIScrollView
 
-@property (nonatomic, assign) id infiniTabBarDelegate;
-@property (nonatomic, retain) NSMutableArray *tabBars;
-@property (nonatomic, retain) UITabBar *aTabBar;
-@property (nonatomic, retain) UITabBar *bTabBar;
+@property (nonatomic, weak) id<InfiniTabBarDelegate> infiniTabBarDelegate;
+@property (nonatomic, strong) NSMutableArray *tabBars;
+@property (nonatomic, strong) UITabBar *aTabBar;
+@property (nonatomic, strong) UITabBar *bTabBar;
 
 - (id)initWithItems:(NSArray *)items;
 - (void)setBounces:(BOOL)bounces;
