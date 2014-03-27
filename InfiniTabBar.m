@@ -5,6 +5,10 @@
 
 #import "InfiniTabBar.h"
 
+@interface InfiniTabBar()<UIScrollViewDelegate, UITabBarDelegate>
+
+@end
+
 @implementation InfiniTabBar
 
 @synthesize infiniTabBarDelegate;
@@ -19,52 +23,56 @@
 	// Doesn't work. self is nil at this point.
 	
     if (self) {
-		self.pagingEnabled = YES;
-		self.delegate = self;
-		
-		self.tabBars = [[[NSMutableArray alloc] init] autorelease];
-		
-		float x = 0.0;
-		
-		for (double d = 0; d < ceil(items.count / 5.0); d ++) {
-			UITabBar *tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(x, 0.0, 320.0, 49.0)];
-			tabBar.delegate = self;
-			
-			int len = 0;
-			
-			for (int i = d * 5; i < d * 5 + 5; i ++)
-				if (i < items.count)
-					len ++;
-			
-			tabBar.items = [items objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(d * 5, len)]];
-			
-			[self addSubview:tabBar];
-			
-			[self.tabBars addObject:tabBar];
-			
-			[tabBar release];
-			
-			x += 320.0;
-		}
-		
-		self.contentSize = CGSizeMake(x, 49.0);
+        [self setupWithItems:items];
 	}
 	
     return self;
 }
 
+-(void) setupWithItems:(NSArray *) items {
+    self.pagingEnabled = YES;
+    self.delegate = self;
+    
+    self.tabBars = [[NSMutableArray alloc] init];
+    
+    float x = 0.0;
+    
+    for (double d = 0; d < ceil(items.count / 5.0); d ++) {
+        UITabBar *tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(x, 0.0, self.frame.size.width, self.frame.size.height)];
+        tabBar.delegate = self;
+        
+        int len = 0;
+        
+        for (int i = d * 5; i < d * 5 + 5; i ++)
+            if (i < items.count)
+                len ++;
+        
+        tabBar.items = [items objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(d * 5, len)]];
+        
+        [self addSubview:tabBar];
+        
+        [self.tabBars addObject:tabBar];
+        
+        x += 320.0;
+    }
+    
+    self.contentSize = CGSizeMake(x, 49.0);
+
+}
+
 - (void)setBounces:(BOOL)bounces {
 	if (bounces) {
 		int count = self.tabBars.count;
+        
 		
 		if (count > 0) {
 			if (self.aTabBar == nil)
-				self.aTabBar = [[[UITabBar alloc] initWithFrame:CGRectMake(-320.0, 0.0, 320.0, 49.0)]autorelease];
+				self.aTabBar = [[UITabBar alloc] initWithFrame:CGRectMake(-320.0, 0.0, 320.0, 49.0)];
 			
 			[self addSubview:self.aTabBar];
 			
 			if (self.bTabBar == nil)
-				self.bTabBar = [[[UITabBar alloc] initWithFrame:CGRectMake(count * 320.0, 0.0, 320.0, 49.0)] autorelease];
+				self.bTabBar = [[UITabBar alloc] initWithFrame:CGRectMake(count * 320.0, 0.0, 320.0, 49.0)];
 			
 			[self addSubview:self.bTabBar];
 		}
@@ -77,17 +85,22 @@
 }
 
 - (void)setItems:(NSArray *)items animated:(BOOL)animated {
-	for (UITabBar *tabBar in self.tabBars) {
-		int len = 0;
-		
-		for (int i = [self.tabBars indexOfObject:tabBar] * 5; i < [self.tabBars indexOfObject:tabBar] * 5 + 5; i ++)
-			if (i < items.count)
-				len ++;
-		
-		[tabBar setItems:[items objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange([self.tabBars indexOfObject:tabBar] * 5, len)]] animated:animated];
-	}
-	
-	self.contentSize = CGSizeMake(ceil(items.count / 5.0) * 320.0, 49.0);
+    if (!self.tabBars) {
+        [self setupWithItems:items];
+    } else {
+        
+        for (UITabBar *tabBar in self.tabBars) {
+            int len = 0;
+            
+            for (int i = [self.tabBars indexOfObject:tabBar] * 5; i < [self.tabBars indexOfObject:tabBar] * 5 + 5; i ++)
+                if (i < items.count)
+                    len ++;
+            
+            [tabBar setItems:[items objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange([self.tabBars indexOfObject:tabBar] * 5, len)]] animated:animated];
+        }
+        
+        self.contentSize = CGSizeMake(ceil(items.count / 5.0) * 320.0, 49.0);
+    }
 }
 
 - (int)currentTabBarTag {
@@ -148,14 +161,6 @@
 			tabBar.selectedItem = nil;
 	
 	[infiniTabBarDelegate infiniTabBar:self didSelectItemWithTag:item.tag];
-}
-
-- (void)dealloc {
-	[bTabBar release];
-	[aTabBar release];
-	[tabBars release];
-	
-	[super dealloc];
 }
 
 @end
