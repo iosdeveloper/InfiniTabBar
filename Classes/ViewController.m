@@ -42,17 +42,6 @@
 													   mostRecent,
 													   mostViewed, nil]];
 	
-	[favorites release];
-	[topRated release];
-	[featured release];
-	[recents release];
-	[contacts release];
-	[history release];
-	[bookmarks release];
-	[search release];
-	[downloads release];
-	[mostRecent release];
-	[mostViewed release];
 	
 	// Don't show scroll indicator
 	self.tabBar.showsHorizontalScrollIndicator = NO;
@@ -67,28 +56,24 @@
 	
 	[self.view addSubview:aLabel];
 	
-	[aLabel release];
 	
 	UISwitch *aSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(206.0, 20.0, 94.0, 27.0)];
 	[aSwitch addTarget:self action:@selector(bounces:) forControlEvents:UIControlEventValueChanged];
 	
 	[self.view addSubview:aSwitch];
 	
-	[aSwitch release];
 	
 	UILabel *bLabel = [[UILabel alloc] initWithFrame:CGRectMake(20.0, 58.0, 178.0, 21.0)];
 	bLabel.text = @"Shows scroll indicator";
 	
 	[self.view addSubview:bLabel];
 	
-	[bLabel release];
 	
 	UISwitch *bSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(206.0, 55.0, 94.0, 27.0)];
 	[bSwitch addTarget:self action:@selector(showsScrollIndicator:) forControlEvents:UIControlEventValueChanged];
 	
 	[self.view addSubview:bSwitch];
 	
-	[bSwitch release];
 	
 	UIButton *aButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
 	[aButton addTarget:self action:@selector(setNewItems) forControlEvents:UIControlEventTouchUpInside];
@@ -130,7 +115,6 @@
 	
 	[self.view addSubview:cLabel];
 	
-	[cLabel release];
 	
 	self.dLabel = [[UILabel alloc] initWithFrame:CGRectMake(258.0, 315.0, 42.0, 21.0)];
 	self.dLabel.text = @"1";
@@ -143,7 +127,6 @@
 	
 	[self.view addSubview:eLabel];
 	
-	[eLabel release];
 	
 	self.fLabel = [[UILabel alloc] initWithFrame:CGRectMake(258.0, 344.0, 42.0, 21.0)];
 	self.fLabel.textAlignment = UITextAlignmentRight;
@@ -185,11 +168,6 @@
 						   favorites,
 						   more, nil] animated:NO];
 	
-	[featured release];
-	[mostViewed release];
-	[search release];
-	[favorites release];
-	[more release];
 }
 
 - (void)setOldItemsAnimated {
@@ -217,17 +195,6 @@
 						   mostRecent,
 						   mostViewed, nil] animated:YES];
 	
-	[favorites release];
-	[topRated release];
-	[featured release];
-	[recents release];
-	[contacts release];
-	[history release];
-	[bookmarks release];
-	[search release];
-	[downloads release];
-	[mostRecent release];
-	[mostViewed release];
 }
 
 - (void)scrollToTabBar3 {
@@ -258,14 +225,5 @@
 	self.fLabel.text = [NSString stringWithFormat:@"%d", tag + 1];
 }
 
-- (void)dealloc {
-	// UI
-	[fLabel release];
-	[dLabel release];
-	
-	[tabBar release];
-	
-    [super dealloc];
-}
 
 @end

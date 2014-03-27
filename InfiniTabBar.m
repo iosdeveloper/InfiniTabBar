@@ -38,7 +38,7 @@
     float x = 0.0;
     
     for (double d = 0; d < ceil(items.count / 5.0); d ++) {
-        UITabBar *tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(x, 0.0, 320.0, 49.0)];
+        UITabBar *tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(x, 0.0, self.frame.size.width, self.frame.size.height)];
         tabBar.delegate = self;
         
         int len = 0;

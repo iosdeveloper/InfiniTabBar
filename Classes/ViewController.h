@@ -14,10 +14,10 @@
 	UILabel *fLabel;
 }
 
-@property (nonatomic, retain) InfiniTabBar *tabBar;
+@property (nonatomic, strong) InfiniTabBar *tabBar;
 
 // UI
-@property (nonatomic, retain) UILabel *dLabel;
-@property (nonatomic, retain) UILabel *fLabel;
+@property (nonatomic, strong) UILabel *dLabel;
+@property (nonatomic, strong) UILabel *fLabel;
 
 @end
