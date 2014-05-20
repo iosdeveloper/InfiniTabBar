@@ -14,7 +14,7 @@
 @property (nonatomic, assign) id infiniTabBarDelegate;
 
 
-- (id)initWithItems:(NSArray *)items;
+- (id)initWithItems:(NSArray *)items andBackgroundColor:(UIColor*)tabBackgroundColor;
 - (void)setBounces:(BOOL)bounces;
 - (void)setItems:(NSArray *)items animated:(BOOL)animated;
 - (int)currentTabBarTag;

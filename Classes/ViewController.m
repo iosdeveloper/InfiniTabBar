@@ -4,6 +4,7 @@
 //
 
 #import "ViewController.h"
+#import "VSTabBar.h"
 
 @implementation ViewController
 
@@ -17,6 +18,8 @@
     [super viewDidLoad];
 	
 	// Items
+    
+    /*
 	UITabBarItem *favorites = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemFavorites tag:0];
 	UITabBarItem *topRated = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemTopRated tag:1];
 	UITabBarItem *featured = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemFeatured tag:2];
@@ -28,31 +31,86 @@
 	UITabBarItem *downloads = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemDownloads tag:8]; downloads.badgeValue = @"2";
 	UITabBarItem *mostRecent = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMostRecent tag:9];
 	UITabBarItem *mostViewed = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMostViewed tag:10];
+    UITabBarItem *mostPopular = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMore tag:11];
+    UITabBarItem *veryPopular = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemBookmarks tag:12];
+    UITabBarItem *nazarItem = [[UITabBarItem alloc] initWithTitle:nil image:[UIImage imageNamed:@"topbar_icon"] tag:13];
+     */
+    
+    
+    /*
+     UIColor *tabBGColor = [UIColor lightGrayColor];
+     self.tabBar = [[InfiniTabBar alloc] initWithItems:[NSArray arrayWithObjects:favorites,
+     topRated,
+     featured,
+     recents,
+     contacts,
+     history,
+     bookmarks,
+     search,
+     downloads,
+     mostRecent,
+     mostViewed,
+     mostPopular,
+     veryPopular,
+     nazarItem,
+     nil] andBackgroundColor:tabBGColor];
+     
+     
+     [favorites release];
+     [topRated release];
+     [featured release];
+     [recents release];
+     [contacts release];
+     [history release];
+     [bookmarks release];
+     [search release];
+     [downloads release];
+     [mostRecent release];
+     [mostViewed release];
+     */
+    
+    
+    VSTabBarItem *item1 = [[VSTabBarItem alloc] initWithImage:[UIImage imageNamed:@"nazar.png"] andTag:0];
+    VSTabBarItem *item2 = [[VSTabBarItem alloc] initWithImage:[UIImage imageNamed:@"Beer.png"] andTag:1];
+    VSTabBarItem *item3 = [[VSTabBarItem alloc] initWithImage:[UIImage imageNamed:@"Basket.png"] andTag:2];
+    VSTabBarItem *item4 = [[VSTabBarItem alloc] initWithImage:[UIImage imageNamed:@"topbar_icon.png"] andTag:3];
+    VSTabBarItem *item5 = [[VSTabBarItem alloc] initWithImage:[UIImage imageNamed:@"Money-Bag.png"] andTag:4];
+    VSTabBarItem *item6 = [[VSTabBarItem alloc] initWithImage:[UIImage imageNamed:@"nazar.png"] andTag:5];
+    VSTabBarItem *item7 = [[VSTabBarItem alloc] initWithImage:[UIImage imageNamed:@"Beer.png"] andTag:6];
+    VSTabBarItem *item8 = [[VSTabBarItem alloc] initWithImage:[UIImage imageNamed:@"Basket.png"] andTag:7];
+    VSTabBarItem *item9 = [[VSTabBarItem alloc] initWithImage:[UIImage imageNamed:@"topbar_icon.png"] andTag:8];
+    VSTabBarItem *item10 = [[VSTabBarItem alloc] initWithImage:[UIImage imageNamed:@"Money-Bag.png"] andTag:9];
+    VSTabBarItem *item11 = [[VSTabBarItem alloc] initWithImage:[UIImage imageNamed:@"nazar.png"] andTag:10];
+    
 	
-	// Tab bar
-	self.tabBar = [[InfiniTabBar alloc] initWithItems:[NSArray arrayWithObjects:favorites,
-													   topRated,
-													   featured,
-													   recents,
-													   contacts,
-													   history,
-													   bookmarks,
-													   search,
-													   downloads,
-													   mostRecent,
-													   mostViewed, nil]];
-	
-	[favorites release];
-	[topRated release];
-	[featured release];
-	[recents release];
-	[contacts release];
-	[history release];
-	[bookmarks release];
-	[search release];
-	[downloads release];
-	[mostRecent release];
-	[mostViewed release];
+    UIColor *tabBGColor = [UIColor lightGrayColor];
+    self.tabBar = [[InfiniTabBar alloc] initWithItems:[NSArray arrayWithObjects:item1,
+                                                       item2,
+                                                       item3,
+                                                       item4,
+                                                       item5,
+                                                       item6,
+                                                       item7,
+                                                       item8,
+                                                       item9,
+                                                       item10,
+                                                       item11,
+                                                       nil] andBackgroundColor:tabBGColor];
+    
+    
+    [item1 release];
+    [item2 release];
+    [item3 release];
+    [item4 release];
+    [item5 release];
+    [item6 release];
+    [item7 release];
+    [item8 release];
+    [item9 release];
+    [item10 release];
+    [item11 release];
+    
+
 	
 	// Don't show scroll indicator
 	self.tabBar.showsHorizontalScrollIndicator = NO;
